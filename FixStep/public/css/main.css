@@ -13,8 +13,3 @@ textarea {
     width: 50em;
     height: 20em;
 }
-
-#container {
-    /* made into a block element so it can be centered */
-    text-align: center;
-}

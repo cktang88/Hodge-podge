@@ -25,7 +25,7 @@ var url = 'https://www.youtube.com/watch';
 url += '?v=WsptdUFthWI&autoplay=1&t=';
 
 app.get('/', function(req, res) {
-    console.log(url);
+    //console.log(url);
     res.render('index', {
         url: url,
         time: t
