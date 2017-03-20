@@ -64,7 +64,7 @@ function changeBorderColor(playerStatus) {
         color = "#FF6DOO"; // video cued = orange
     }
     if (color) {
-        document.getElementById('existing-iframe-example').style.borderColor = color;
+        document.getElementById('iframe_player').style.borderColor = color;
     }
 }
 

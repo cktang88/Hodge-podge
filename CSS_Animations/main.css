@@ -1,0 +1,31 @@
+body {
+    font-family: 'Roboto' 1.5em;
+    padding: 4em;
+    transition: all 0.4s ease;
+}
+
+body>div {
+    padding: 2em;
+    width: 483px;
+    height: 298px;
+    background: #676470;
+}
+
+.fade {
+    opacity: 0.5;
+}
+
+.fade:hover {
+    opacity: 1;
+}
+
+body>button {
+    width: 5em;
+    height: 2em;
+}
+
+.grow:hover {
+    -webkit-transform: scale(1.5);
+    -ms-transform: scale(1.5);
+    transform: scale(1.5);
+}
