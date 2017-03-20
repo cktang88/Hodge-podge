@@ -1,7 +1,6 @@
 body {
     font-family: 'Roboto' 1.5em;
     padding: 4em;
-    transition: all 0.4s ease;
 }
 
 body>div {
@@ -9,6 +8,7 @@ body>div {
     width: 483px;
     height: 298px;
     background: #676470;
+    transition: all 0.4s ease;
 }
 
 .fade {
@@ -22,6 +22,7 @@ body>div {
 body>button {
     width: 5em;
     height: 2em;
+    transition: all 0.4s ease;
 }
 
 .grow:hover {
