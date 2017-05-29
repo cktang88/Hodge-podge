@@ -51,7 +51,13 @@ var findemail = function (username) {
             if (e.type === 'PushEvent')
                 pushevents.push(e);
         }
-        console.log(pushevents.length);
+        if(pushevents.length===0){
+            console.log('Email for \'' + username + '\' could not be found via option #2.');
+            return;
+        }
+        var commits = pushevents[0].payload.commits;
+        //gets latest commit, because previous commits may be by different contributors
+        console.log(commits[commits.length-1].author.email);
         /*
         fs.writeFile('data/data.json', events, function (err) {
             if (err)

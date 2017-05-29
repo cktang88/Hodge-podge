@@ -5,7 +5,7 @@ A whole bunch of scattered utter randomness that may one day turn into diamonds,
 **Translation:** A repo to hold half-baked ideas that may turn into more developed projects.
 
 Currently:
-* **apikey-hunter** - searches for API keys on github
+* **apikey-hunter** - find github user email, EVEN IF THE USER HAS NOT MADE EMAIL PUBLIC!!!!
 * **CSS Animations** - test out various CSS animations
 * **Dictionary** - a simple concept test of replacing emojis in text with sample html tags. Works recursively (Java). TODO: make version using stack
 * **Fixstep** - Node.js-based app to synchronize Youtube videos inside browsers (Javascript, html, css)
