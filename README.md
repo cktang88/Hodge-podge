@@ -13,6 +13,7 @@ Contents:
 * **gh-user-email** - find github user email. Works for private emails also.
 * **Hexno** - a hexgrid implementation with mouse handler (Java)
 * **ml_exoplanets** - OpenExoplanetCatalogue data w/ scikit-learn ML playground
+* **mongo-playground** - trying out MongoDB w/ Node.
 
 
 
