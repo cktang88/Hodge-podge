@@ -1,14 +1,18 @@
 // do bare mongo first, use Monk later.
 
-var MongoClient = require('mongodb').MongoClient,
-	assert = require('assert');
+const MongoClient = require('mongodb').MongoClient;
+const assert = require('assert');
 
-// Connection URL
-var url = 'mongodb://localhost:27017/myproject';
+// Connection 
+const user = process.env.user;
+const password = process.env.password;
+const dbname = process.env.db_name;
+const url = `mongodb://${user}:${password}@ds135382.mlab.com:35382/${dbname}`;
+console.log(url);
 // Use connect method to connect to the Server
 MongoClient.connect(url, function (err, db) {
 	assert.equal(null, err);
-	console.log("Connected correctly to server");
+	console.log(`Connected correctly to server at ${url}`);
 
 	// lol callback hell --> TODO: use promises
 	insertDocuments(db, function () {
