@@ -14,9 +14,12 @@ const password = process.env.password;
 const dbname = process.env.db_name;
 const url = `mongodb://${user}:${password}@ds135382.mlab.com:35382/${dbname}`;
 console.log(url);
+
+let db_inst = {};
 // Use connect method to connect to the Server
 MongoClient.connectAsync(url)
-	.then(function (db) {
+	.then((db) => {
+		db_inst = db;
 		//assert.equal(null, err);
 		console.log(`Connected correctly to server at ${url}`);
 		// clear database
@@ -26,39 +29,38 @@ MongoClient.connectAsync(url)
 		// Get the documents collection
 		return db.collection('documents');
 		// "col" = collection
-	}).then(function (col) {
+	}).then((col) => {
 		insertDocuments(col);
 		console.log("Inserted 3 docs into 'documents' collection.");
 		return col;
 	})
-	.then(function (col) {
+	.then((col) => {
 		updateDocument(col);
 		console.log("Updated doc where a = 2.");
 		return col;
 	})
-	.then(function (col) {
+	.then((col) => {
 		deleteDocument(col);
 		console.log("Removed doc where a = 3.");
 		return col;
 	})
-	.then(function (col) {
+	.then((col) => {
 		return findDocuments(col);
 	})
-	.then(function(docs){
+	.then((docs) => {
 		return docs.toArrayAsync();
 	})
-	.then(function (docs) {
+	.then((docs) => {
 		console.log("Found the following records:");
 		console.log(docs);
 	})
-	.catch(function (err) {
+	.catch((err) => {
 		console.log(err);
 	})
-/*
-.finally(function (db) {
-	db.close();
-});
-*/
+	.finally(() => {
+		db_inst.close();
+		console.log('db closed successfully.');
+	});
 
 let insertDocuments = (col) => {
 	// Insert some documents
