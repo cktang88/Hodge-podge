@@ -17,7 +17,7 @@ col.remove({}).then(() => {
 	log('Collection cleared.');
 	const arr = JSON.parse(fs.readFileSync('./bios-data.json', 'utf8'));
 	return col.insert(arr);
-}).then((col) => {
+}).then( col => {
 	log(`Inserted ${col.length} docs into collection.`);
 }).then(() => {
 	db.close();

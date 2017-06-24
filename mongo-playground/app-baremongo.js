@@ -15,7 +15,7 @@ const log = console.log;
 let db_inst = {};
 // Use connect method to connect to the Server
 mongo.MongoClient.connectAsync(url)
-	.then((db) => {
+	.then(db => {
 		db_inst = db;
 		//assert.equal(null, err);
 		log(`Connected correctly to server at ${url}`);
@@ -24,32 +24,32 @@ mongo.MongoClient.connectAsync(url)
 		log('Database cleared.');
 		// Get the documents collection
 		return db.collection('documents');
-	}).then((col) => {
+	}).then(col => {
 		insertDocuments(col);
 		log("Inserted 3 docs into 'documents' collection.");
 		return col;
-	}).then((col) => {
+	}).then(col => {
 		updateDocument(col);
 		log("Updated doc where a = 2.");
 		return col;
-	}).then((col) => {
+	}).then(col => {
 		deleteDocument(col);
 		log("Removed doc where a = 3.");
 		return col;
-	}).then((col) => {
+	}).then(col => {
 		return findDocuments(col);
-	}).then((docs) => {
+	}).then(docs => {
 		return docs.toArrayAsync();
-	}).then((docs) => {
+	}).then(docs => {
 		log("Found the following records:", docs);
-	}).catch((err) => {
+	}).catch(err => {
 		log(err);
 	}).finally(() => {
 		db_inst.close();
 		log('db closed successfully.');
 	});
 
-let insertDocuments = (col) => {
+let insertDocuments = col => {
 	// Insert some documents
 	return col.insertManyAsync([{
 		a: 1
@@ -59,7 +59,7 @@ let insertDocuments = (col) => {
 		a: 3
 	}]);
 }
-let updateDocument = (col) => {
+let updateDocument = col => {
 	// Update document where a is 2, set b equal to 1
 	return col.updateOneAsync({
 		a: 2
@@ -70,12 +70,10 @@ let updateDocument = (col) => {
 	});
 }
 
-let deleteDocument = (col) => {
+let deleteDocument = col => {
 	// delete doc
 	return col.deleteOneAsync({
 		a: 3
 	});
 }
-let findDocuments = (col) => {
-	return col.findAsync({});
-}
+let findDocuments = col => col.findAsync({});
