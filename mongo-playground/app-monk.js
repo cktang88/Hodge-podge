@@ -1,4 +1,9 @@
 // finally using Monk. Don't even need to bother w/ Mongoose...
+// Why use Monk:
+// 1. syntactic sugar (combines a lot of similar mongo default functions into more general functions)
+// 2. works with promises
+// 3. has plug-n-play middleware
+
 // Connection 
 const user = process.env.user;
 const password = process.env.password;
@@ -17,7 +22,7 @@ col.remove({}).then(() => {
 	log('Collection cleared.');
 	const arr = JSON.parse(fs.readFileSync('./bios-data.json', 'utf8'));
 	return col.insert(arr);
-}).then( col => {
+}).then(col => {
 	log(`Inserted ${col.length} docs into collection.`);
 }).then(() => {
 	db.close();
