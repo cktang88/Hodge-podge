@@ -1,4 +1,5 @@
 // do bare mongo first, use Monk later.
+'use strict'
 const Promise = require('bluebird');
 // promisify
 var mongo = Promise.promisifyAll(require('mongodb'));

@@ -4,6 +4,8 @@
 // 2. works with promises
 // 3. has plug-n-play middleware
 
+'use strict'
+
 // Connection 
 const user = process.env.user;
 const password = process.env.password;
