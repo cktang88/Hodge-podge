@@ -11,7 +11,6 @@ Contents:
 * **Dictionary** - a simple concept test of replacing emojis in text with sample html tags. Works recursively (Java). TODO: make version using stack
 * **Fixstep** - synchronize Youtube videos inside browsers
 * **gh-user-email** - find github user email. Works for private emails also.
-* **ml_exoplanets** - OpenExoplanetCatalogue data w/ scikit-learn ML playground
 * **mongo-playground** - trying out MongoDB w/ Node.
 
 
