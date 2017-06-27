@@ -1,13 +1,14 @@
 # Scala Journey
 
 ### Best sources
-[Essential Scala](http://underscore.io/training/courses/essential-scala/)
-[Stack-overflow Scala wiki](https://stackoverflow.com/tags/scala/info)
-When in doubt, check the [Scala official API](http://www.scala-lang.org/api/2.12.2/)
+* [Essential Scala](http://underscore.io/training/courses/essential-scala/)
+* [StackOverflow Scala wiki](https://stackoverflow.com/tags/scala/info)
+* When in doubt, check the [Scala official API](http://www.scala-lang.org/api/2.12.2/)
 
 ### Notes
 Scala changes EXTREMELY quickly. Always be up to date on docs.
-Also, listen to how dramatic changes in Array underlying representation occured in Scala 2.8:
+
+Eg. dramatic changes in Array representation in Scala 2.8:
 [Scala Docs - Arrays](http://docs.scala-lang.org/overviews/collections/arrays.html)
 
 ### Specific
