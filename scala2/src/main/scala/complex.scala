@@ -1,7 +1,8 @@
 // pure classes, with something resembling constructor
 
 // can declare var inline with param declaration
-class Complex(real: Double, imaginary: Double, var apublicvar: Int) {
+// default params
+class Complex(real: Double = 0, imaginary: Double = 0, var apublicvar: Int = 0) {
   // pretty much same effect, except one is variable, another is func
   var re = real
   def im = imaginary
@@ -56,5 +57,9 @@ object Runme {
     println("String: " + c.toString)
     c.apublicvar = 4 // valid
     println("public var:" + c.apublicvar)
+
+    // can specify any params in any order, due to default params
+    var d = new Complex(apublicvar = 3, imaginary = 3.4)
+    println(d)
   }
 }
