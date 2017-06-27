@@ -16,11 +16,24 @@ const url = `mongodb://${user}:${password}@ds135382.mlab.com:35382/${dbname}`;
 const log = console.log;
 const fs = require('fs');
 
-const db = require('monk')(url);
-log(`Connected to mongodb at ${url}`);
-// collection
-const col = db.get('bios-sample-data');
-col.remove({}).then(() => {
+let db = {};
+require('monk')(url).then((adb) => {
+	try {
+		// drop db by connecting to underlying db instance
+		adb._db.dropDatabase();
+		console.log('DB dropped.');
+		db = adb;
+	} catch (e) {
+		log(e);
+	}
+}).then(() => {
+	log(`Connected to mongodb at ${url}`);
+	// collection
+	return db.get('bios-sample-data');
+}).then(col => {
+	col.remove({});
+	return col;
+}).then(col => {
 	log('Collection cleared.');
 	const arr = JSON.parse(fs.readFileSync('./bios-data.json', 'utf8'));
 	return col.insert(arr);
