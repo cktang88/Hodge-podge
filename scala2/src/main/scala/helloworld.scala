@@ -32,22 +32,24 @@ object HelloWorld {
     def oncePerSecond(callback: () => Unit) {
       //note that b is still defined from parent function closure
       println(b)
-      a=0
-      while (a<5) { callback(); Thread sleep 100; a+=1;}
+      a = 0
+      while (a < 5) {
+        callback(); Thread sleep 100; a += 1;
+      }
     }
+
     def timeFlies() {
       println("time flies like an arrow...")
     }
+
     // oncePerSecond(timeFlies);
 
-    // TODO: fix this; doensn't display correctly...
-    // ERROR, BUG
     var num = new Complex(2.2, 4.5)
     println(num.toString)
 
     // technically should have done "var myArray : Array[String] = new Array[String](10);"
     var myArray = new Array[String](10);
-    for(i <- 0 until myArray.length){
+    for (i <- 0 until myArray.length) {
       println("i is: " + i);
       println("i'th element is: " + myArray(i));
     }
