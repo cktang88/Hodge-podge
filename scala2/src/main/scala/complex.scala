@@ -1,11 +1,13 @@
 // pure classes, with something resembling constructor
-class Complex(real: Double, imaginary: Double) {
-  def re = real
 
+// can declare var inline with param declaration
+class Complex(real: Double, imaginary: Double, var apublicvar: Int) {
+  // pretty much same effect, except one is variable, another is func
+  var re = real
   def im = imaginary
 
   // can define these methods WITHOUT arguments (so can refer to them as variables, even though they're funcs
-  override def toString(): String =
+  override def toString : String =
     "" + re + (if (im < 0) "" else "+") + im + "i"
 
   // type ambiguous, even with scala's type inference
@@ -14,13 +16,25 @@ class Complex(real: Double, imaginary: Double) {
   var myIntField: Int = 0;
 
   // returns something - accessor
-  def getMyField(): Int = {
+  def getMyField : Int = {
     return this.myField;
   }
 
   // does not return anything - mutator
   def addToMyField(value: Int) {
     this.myField += value;
+  }
+
+  // one is a field, one is a method, looks almost identical
+  // difference: field is evaluated once at compile time, method is evaluated every time
+  val simpleField = {
+    println("Evaluating simpleField")
+    42
+  }
+  def noParameterMethod = {
+    println("Evaluating noParameterMethod")
+    // note implicit return
+    42
   }
 
   /*
@@ -34,7 +48,13 @@ class Complex(real: Double, imaginary: Double) {
 object Runme {
   // making a new starting point...
   def main(args: Array[String]): Unit = {
-    var c = new Complex(2.3, 4.5)
-    print(c.toString())
+    var c = new Complex(2.3, 4.5, 3)
+    // c.im = 5; // invalid
+    println("Imaginary: " + c.im)
+    c.re = 5 // valid
+    println("Real: " + c.re)
+    println("String: " + c.toString)
+    c.apublicvar = 4 // valid
+    println("public var:" + c.apublicvar)
   }
 }
