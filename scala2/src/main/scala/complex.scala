@@ -1,9 +1,26 @@
 // pure classes, with something resembling constructor
 class Complex(real: Double, imaginary: Double) {
-  def re() = real
-  def im() = imaginary
 
-  override def toString: String = re().toString + "+" + im().toString + "i"
+  // can define these methods WITHOUT arguments (so can refer to them as variables, even though they're funcs
+  class Complex(real: Double, imaginary: Double) {
+    def re = real
+    def im = imaginary
+    override def toString() : String =
+      "" + re + (if (im < 0) "" else "+") + im + "i"
+
+    // type ambiguous, even with scala's type inference
+    var myField = 0;
+    // specifically declaring to be int
+    var myIntField : Int = 0;
+    // returns something - accessor
+    def getMyField() : Int = {
+      return this.myField;
+    }
+    // does not return anything - mutator
+    def addToMyField(value : Int) {
+      this.myField += value;
+    }
+  }
   /*
     Note that there are no operators in scala. Addition (+) is the method of Int: (1).+(2).
     The only way to override an existing method is inheritance with override keyword.
