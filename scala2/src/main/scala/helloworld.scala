@@ -4,6 +4,8 @@ import java.util.{Date, Locale}
 import java.text.DateFormat._
 import java.text.DateFormat
 
+import scala.util.Random
+
 // singleton - declares both a class and an object
 // replaces static classes/methods
 object HelloWorld {
@@ -48,10 +50,19 @@ object HelloWorld {
     println(num.toString)
 
     // technically should have done "var myArray : Array[String] = new Array[String](10);"
-    var myArray = new Array[String](10);
-    for (i <- 0 until myArray.length) {
-      println("i is: " + i);
-      println("i'th element is: " + myArray(i));
+    var myArray = new Array[String](5);
+    // note: reassignment error will occur if you try to initialize myArray as a 'val'
+    myArray = Array.fill(10){Random.nextInt(1000).toString()}
+    // note the use of template strings
+    // for loop
+    for (i <- myArray.indices) {
+      //myArray(i) = i*2
+      println(s"$i'th element is: " + myArray(i));
+    }
+    println("-----")
+    // foreach loop
+    for (i <- myArray) {
+      println(s"${myArray.indexOf(i)}'th element is: " + i);
     }
   }
 }
