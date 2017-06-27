@@ -12,7 +12,7 @@ Eg. dramatic changes in Array representation in Scala 2.8:
 [Scala Docs - Arrays](http://docs.scala-lang.org/overviews/collections/arrays.html)
 
 Type hierarchy:
-![Type hierarchy]('./type-hierarchy.PNG')
+![Type hierarchy](type-hierarchy.PNG)
 
 ### Specific
 * Although types optional, it's a good idea to define it to check errors at compile time.
