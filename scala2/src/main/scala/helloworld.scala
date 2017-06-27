@@ -25,11 +25,22 @@ object HelloWorld {
     var b = 1.+(2)
     println(b.isInstanceOf[Int]) // is int because parsed as: (1)(.+)(2) where the . is the method call.
     var c = 1.0 + 2
-    println(c.isInstanceOf[Int] // is double
+    println(c.isInstanceOf[Int]) // is double
 
     // scala allows nested functions! :)
+    // also note anonymous functions, lambda
     def oncePerSecond(callback: () => Unit) {
-      while (true) { callback(); Thread sleep 1000 }
+      //note that b is still defined from parent function closure
+      println(b)
+      a=0
+      while (a<5) { callback(); Thread sleep 100; a+=1;}
     }
+    def timeFlies() {
+      println("time flies like an arrow...")
+    }
+    oncePerSecond(timeFlies);
+
+    var num = new Complex(2.2, 4.5)
+    println(num)
   }
 }
