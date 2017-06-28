@@ -6,9 +6,12 @@
 * When in doubt, check the [Scala official API](http://www.scala-lang.org/api/2.12.2/)
 
 ### Notes
-Scala changes EXTREMELY quickly. Always be up to date on docs.
+Scala changes very quickly.
 
-Eg. dramatic changes in Array representation in Scala 2.8:
+* 2.12.0 released 03-Nov-2016
+* 2.11.0 released 21-Apr-2014
+* 2.10.0 released 04-Jan-2013
+* Any older is too different. eg. dramatic changes in Array representation in Scala 2.8:
 [Scala Docs - Arrays](http://docs.scala-lang.org/overviews/collections/arrays.html)
 
 Type hierarchy:
@@ -20,3 +23,4 @@ Type hierarchy:
 * Default type for an ambiguous "var" is "Any", which is the grand supertype of all Scala types.
 If type ambiguous, Scala chooses their closest common ancestor.
 * Why no "i++" in Scala - https://stackoverflow.com/questions/4520463/why-no-i-in-scala
+* Scala’s == operator is smart - it delegates to equals rather than comparing values on reference identity
