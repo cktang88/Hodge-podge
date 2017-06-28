@@ -9,29 +9,28 @@ let fetch = _url => {
 		url: _url,
 		headers: {
 			'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/39.0.2171.95 Safari/537.36'
-		}
+		},
+		json: true //autoparse JSON
 	}
 	return rp(options)
 		.then(body => {
 			return body;
-		}).catch(err => {
-			log(err);
-		});
+		})
+		.catch(err => log(err.message));
 }
 //find user email
 let findemail = username => {
 	// option1: try to get from /users/[username] page directly, most likely to fail
-	fetch(makeurl(username)).then(body => {
-		var email = JSON.parse(body).email;
-		log(email ? email : 'Email for \'' + username + '\' could not be found via option #1.');
-	});
+	fetch(makeurl(username)).then(user => {
+		log(user.email);
+	}).catch(e => log("Error."))
 	// option2: go to /users/[username]/events page to get events, then get commits, then get email
-	fetch(makeurl(username) + '/events').then(body => {
-		let pushevents = JSON.parse(body).filter(e => e.type === 'PushEvent');
+	fetch(makeurl(username) + '/events').then(events => {
+		let pushevents = events.filter(e => e.type === 'PushEvent');
 		let commits = pushevents[0].payload.commits;
 		//gets latest commit, because previous commits may be by different contributors
 		log(commits[commits.length - 1].author.email);
-	});
+	}).catch(e => log("Error."))
 }
 // run
 findemail('ddyy345');
