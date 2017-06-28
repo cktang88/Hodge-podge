@@ -1,7 +1,7 @@
 # Scala Journey
 
 ### Best sources
-* Quick syntax: https://learnxinyminutes.com/docs/scala/
+* Quick syntax: https://learnxinyminutes.com/docs/scala/ - finished 6/28/2017
 * [Essential Scala](http://underscore.io/training/courses/essential-scala/)
 
 More detailed:

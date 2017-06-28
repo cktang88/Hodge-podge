@@ -1,10 +1,10 @@
-// from http://www.scala-lang.org/docu/files/ScalaTutorial.pdf
 // can import java libs (note underscore instead of asterisk)
 import java.util.{Date, Locale}
 import java.text.DateFormat._
 import java.text.DateFormat
 
-import scala.util.Random
+// Rename an import using '=>'
+import scala.util.{Random => Rand}
 
 // singleton - declares both a class and an object
 // replaces static classes/methods
@@ -71,7 +71,7 @@ object HelloWorld {
       var myArray = new Array[String](5)
       // note: reassignment error will occur if you try to initialize myArray as a 'val'
       myArray = Array.fill(3) {
-        Random.nextInt(1000).toString
+        Rand.nextInt(1000).toString
       }
       // note the use of template strings
       // for loop
@@ -95,9 +95,6 @@ object HelloWorld {
     val noelse = if (false) "hello" // type = "Any", value = Unit
 
       assert(noelse != null && noelse == {}) // not null, = {}
-
-      // foreach loop (note implied map, takes func as param b/c functional!)
-      (5 to 1 by -2) foreach println
 
       //idiomatic scala - looping via recursion
       def showNumbersInRange(a: Int, b: Int): String = {
@@ -283,8 +280,8 @@ object HelloWorld {
         case Person("George", _) => "hi george"
         case Person(firstName, lastName) => "stranger"
       }
-      assert(patternFunc(Person(firstName = "notgeorge"))=="stranger")
-      assert(patternFunc(Person(firstName = "George"))=="hi george")
+      assert(patternFunc(Person(firstName = "notgeorge")) == "stranger")
+      assert(patternFunc(Person(firstName = "George")) == "hi george")
 
 
     }
@@ -306,6 +303,89 @@ object HelloWorld {
 
       assert(foo(5) == 8) // because 5+2+1 = 8
       assert(foo(6) == 6) // because makes z the return value of foo!! (to fix, don't use return statements)
+    }
+
+    {
+      // FUNCTIONAL PARADIGM
+
+      List(1, 2, 3) map (x => x + 10)
+      // shorthand: underscore symbol can be used if only one arg, bound to variable
+      List(1, 2, 3) map (_ + 10)
+      // If the anonymous block AND the function you are applying both take one
+      // argument, you can even omit the underscore and parens
+      (5 to 1 by -2) foreach println
+
+      // filter
+      var a = List(1, 3, 5).filter(_ <= 3)
+      assert(a == List(1, 3))
+      // reduce to find sum
+      val sum = a.reduce(_ + _)
+      assert(sum == 4)
+      // reduce to find max
+      val m = List(1,3,4,792,3,2,1)
+      assert(m.reduceLeft((x,y) => x max y) == 792)
+
+
+      // For-comprehensions
+      // the if-statement is called a "guard"
+      // is not a for-loop b/c returns a list, represents relationship between two sets of data
+      val evens_squared = for (i <- List.range(1, 10) if i % 2 == 0) yield i * i
+      assert(evens_squared == List(4, 16, 36, 64))
+
+    }
+    {
+      // IMPLICITS
+
+      // Any value (vals, functions, objects, etc) can be declared to be implicit
+      // doesn't change behavior...
+      class Dog(val breed : String){
+        def bark = "No i won't bark."
+      }
+      implicit val myImplicitInt = 100
+      implicit def myImplicitFunction(breed: String) = new Dog("Golden " + breed)
+
+
+      // these values are now used when another piece of code "needs" an implicit value.
+      def sendGreetings(toWhom: String)(implicit howMany: Int) =
+      s"Hello $toWhom, $howMany blessings to you and yours!"
+      println(sendGreetings("Jane"))  // => "Hello Jane, 100 blessings to you and yours!"
+
+      //what happens if more than one implicit ints???
+
+
+      // 1. Implicit function parameters enable us to simulate type classes in other
+      // functional languages. It is so often used that it gets its own shorthand. The
+      // following two lines mean the same thing:
+      // def foo[T](implicit c: C[T]) = ...
+      // def foo[T : C] = ...
+
+
+      // 2. If you call obj.method(...) but "obj" doesn't have "method" as a method:
+      // if there is an implicit conversion of type A => B, where A is the type of obj, and B has a
+      // method called "method", that conversion is applied. So having
+      // myImplicitFunction above in scope, we can say:
+      assert("Retriever".breed=="Golden Retriever") // => "Golden Retriever"
+      assert("Sheperd".bark=="No i won't bark.")    // => "Woof, woof!"
+      // in the above, the strings are IMPLICITLY converted to Dog objects using the previous implicit func!
+    }
+
+    {
+      // MISCELLANEOUS - input & output
+      // Input and output
+
+      // To read a file line by line
+      import scala.io.Source //import statements work ANYWHERE!!!
+      // current working dir is at project base (where build.sbt is)
+      Source.fromFile("./src/main/scala/helloworld.scala").getLines() foreach println
+
+      import java.io.PrintWriter
+      // To write a file use Java's PrintWriter
+      val writer = new PrintWriter("myfile.txt")
+      writer.write("Writing line for line" + util.Properties.lineSeparator)
+      writer.write("Another line here" + util.Properties.lineSeparator)
+      writer.close()
+
+
     }
 
   }
