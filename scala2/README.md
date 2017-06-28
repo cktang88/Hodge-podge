@@ -1,9 +1,13 @@
 # Scala Journey
 
 ### Best sources
+* Quick syntax: https://learnxinyminutes.com/docs/scala/
 * [Essential Scala](http://underscore.io/training/courses/essential-scala/)
+
+More detailed:
 * [StackOverflow Scala wiki](https://stackoverflow.com/tags/scala/info)
 * When in doubt, check the [Scala official API](http://www.scala-lang.org/api/2.12.2/)
+
 
 ### Notes
 Scala changes very quickly.
