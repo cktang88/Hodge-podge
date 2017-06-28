@@ -1,5 +1,5 @@
 """main app. searches for api keys on github search via webscraping"""
-""" USAGE: use javascript server.js instead
+""" USAGE: use javascript server.js instead """
 import os
 import urllib3
 
