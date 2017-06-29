@@ -1,3 +1,5 @@
+import scala.annotation.tailrec
+
 object scala2 {
   def main(args: Array[String]): Unit = {
     {
@@ -7,12 +9,12 @@ object scala2 {
       class Counter(var count: Int = 0) {
         def inc: Counter = {
           count += 1
-          return this
+          this
         }
 
         def dec: Counter = {
           count -= 1
-          return this
+          this
         }
 
         // private func
@@ -44,14 +46,14 @@ object scala2 {
         def apply(in: Int): Int = {
           // add to log
           args_log ::= in
-          return in + amount
+          in + amount // implicit return
         }
 
         // method overloading
         def apply(in: Double): Int = {
           val n = math.floor(in).toInt
           args_log ::= n
-          return n + amount
+          n + amount // implicit return
         }
 
         override def toString: String = amount + ""
@@ -106,10 +108,6 @@ object scala2 {
       case class Person(firstName: String = "", lastName: String = "") {
         def name = firstName + " " + lastName
       }
-      val dave = new Person("Dave", "Gurnell") // we have a class
-      // dave: Person = Person(Dave,Gurnell)
-      Person // and a companion object too
-      // res: Person.type = Person
 
       /* Case class default features:
       1. A field for each constructor argument — can omit "val" in our constructor def
@@ -120,7 +118,7 @@ object scala2 {
       1. Has "apply" method with the same args as class constructor. Scala programmers
       prefer the apply method over the constructor for the brevity of omiting "new".
        */
-
+      val dave = Person("Dave", "Gurnell") // we have a class & companion obj w/ apply
 
 
       /* PATTERN MATCHING */
@@ -222,10 +220,10 @@ object scala2 {
       assert(a == List(1, 3))
       // reduce to find sum
       val sum = a.reduce(_ + _)
-      assert(sum == 4)
+      assert(sum == a.sum)
       // reduce to find max
       val m = List(1, 3, 4, 792, 3, 2, 1)
-      assert(m.reduceLeft((x, y) => x max y) == 792)
+      assert(m.reduceLeft((x, y) => x max y) == m.max)
 
 
       // For-comprehensions
@@ -247,7 +245,7 @@ object scala2 {
       }
       implicit val myImplicitInt = 100
 
-      implicit def myImplicitFunction(breed: String) = new Dog("Golden " + breed)
+      implicit def myImplicitFunction(breed: String) : Dog = new Dog("Golden " + breed)
 
 
       // these values are now used when another piece of code "needs" an implicit value.
@@ -272,7 +270,97 @@ object scala2 {
       // myImplicitFunction above in scope, we can say:
       assert("Retriever".breed == "Golden Retriever") // => "Golden Retriever"
       assert("Sheperd".bark == "No i won't bark.") // => "Woof, woof!"
-      // in the above, the strings are IMPLICITLY converted to Dog objects using the previous implicit func!
+      // above, strings are IMPLICITLY converted to Dog objects using the previous implicit func!
+    }
+    {
+      /* TRAITS */
+
+      // basically abstract class + inheritance + an interface, COMBINED!
+
+      import java.util.Date
+      // A trait cannot have a constructor, cannot be instantiated
+      trait Visitor {
+        // field - all subtypes inherit
+        val id: String
+        // abstract method - all subtypes must implement
+        def createdAt: Date
+        // is defined, can still be overriden
+        def age: Long = new Date().getTime - createdAt.getTime
+      }
+      // usually overriden by case classes
+      /* Implementing defs as vals is LEGAL in Scala, which sees def as a more general version of val */
+      case class Anonymous(id: String, createdAt: Date = new Date()) extends Visitor
+      case class User(id: String, email: String, createdAt: Date = new Date()) extends Visitor
+      // overrides...
+      case class Pesky(id: String = "Pesky",
+                       email: String = "pesky@pesks.com",
+                       createdAt : Date= new Date(),
+                       age: Long = 5)
+      // manually override also
+      val p = Pesky(age=7)
+      assert(p.age==7)
+
+      /*
+      // SEALED keyword means all subtypes must be declared in same file
+      // careful: those subtypes may have their own subtypes declared outside file
+      // mark as "final" to disallow
+      sealed trait Visitor { /* ... */ }
+      // FINAL keyword means no subtypes allowed
+      final case class User(/* ... */) extends Visitor
+      final case class Anonymous(/* ... */) extends Visitor
+       */
+
+      // possible to have multiple inheritance using "with"
+      sealed trait A
+      sealed trait B
+      sealed trait C
+      sealed trait D
+      sealed trait E extends A with B with C with D // can keep on going
+    }
+
+    {
+      /* RECURSIVE DATA */
+
+      // not great
+      final case class Bone(bone: Bone = null)
+      val b = Bone(Bone(Bone()))
+
+      // better (basically linked list)
+      // this is how Scala's List is internally implemented
+      sealed trait IntList
+      final case object End extends IntList
+      final case class Pair(head: Int, tail: IntList) extends IntList
+      // usage
+      Pair(1, Pair(2, Pair(3, End)))
+
+      /*
+      Recursive calls may consume excessive stack space.
+      Scala optimizes via "tail recursion" automatically.
+      NOTE: Due to JVM limitations, Scala only optimises tail calls where caller calls itself
+
+      A tail call is a method call where the caller immediately returns the value.
+
+      1. Tail calls transform stack allocation into heap allocation
+      2. Any non-tail recursive func can be transformed into a recursive func by
+         utilizing an "accumulator" (eg. keep track of count, total, etc.)
+      */
+
+      @tailrec // "tailrec" annotation to let compiler know you intend that this is a tail rec
+      def tailCall(count: Int = 0): Int = tailCall(count - 1)
+
+      // not a tail call
+      def notATailCall: Int = notATailCall + 2
+
+    }
+
+    {
+      /* GENERICS */
+
+      def generic[A](in: A): A = in
+      generic[String]("foo")
+      // res: String = foo
+      generic(1) // again, if we omit the type parameter, scala will infer it
+      // res: Int = 1
     }
   }
 }

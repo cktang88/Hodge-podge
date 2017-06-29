@@ -22,12 +22,13 @@ Type hierarchy:
 ![Type hierarchy](type-hierarchy.PNG)
 
 ### Specific
-* Although types optional, it's a good idea to define it to check errors at compile time.
+* Using "scalac -deprecation -feature" allows compiler to throw many helpful warnings & messages.
+
 * Difference between 'val' and 'var': val is "final", var is not.
 * Default type for an ambiguous "var" is "Any", which is the grand supertype of all Scala types.
 If type ambiguous, Scala chooses their closest common ancestor.
 * Why no "i++" in Scala - https://stackoverflow.com/questions/4520463/why-no-i-in-scala
 * Scala’s == operator is smart - it delegates to equals rather than comparing values on reference identity
 
-* What are futures? Actor support?
+* What are futures? Actor support? Lazy val? Type classes?
 * Most of the object-oriented design patterns which require loads of boilerplate code in Java are supported natively, e.g. Singleton (via objects), Adapter, Decorator (via traits and implicits), Visitor (via pattern matching), Strategy (via closures) etc.

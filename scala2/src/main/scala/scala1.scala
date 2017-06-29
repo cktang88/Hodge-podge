@@ -1,7 +1,6 @@
 // can import java libs (note underscore instead of asterisk)
 import java.util.{Date, Locale}
 import java.text.DateFormat._
-import java.text.DateFormat
 
 // Rename an import using '=>'
 import scala.util.{Random => Rand}
@@ -63,7 +62,7 @@ object scala1 {
     {
       /* CLASSES */
 
-      var c = new Complex(2.3, 4.5, 3)
+      val c = new Complex(2.3, 4.5, 3)
       // c.im = 5; // invalid
       assert(c.im == 4.5 && c.re == 2.3)
       c.re = 5 // valid
@@ -73,7 +72,7 @@ object scala1 {
       assert(c.apublicvar == 4)
 
       // can specify any params in any order, due to default params
-      var d = new Complex(apublicvar = 3, imaginary = 3.4)
+      val d = new Complex(apublicvar = 3, imaginary = 3.4)
       println(d)
     }
 
@@ -97,7 +96,7 @@ object scala1 {
         println(s"${myArray.indexOf(i)}'th element: " + i)
 
       // best iteration, using idiomatic Scala
-      myArray map println
+      myArray foreach println
 
       // MAPS (dictionary)
       val some_mapping = Map("ST" -> "started", "IP" -> "in progress", "DN" -> "done")
@@ -117,6 +116,9 @@ object scala1 {
       }
 
       assert(showNumbersInRange(9, 14) == "9 10 11 12 13 ")
+
+      // recursion pitfall via pattern matching
+      // https://stackoverflow.com/questions/23408860/implementing-a-recursive-function-using-pattern-matching
 
 
       // tuples
