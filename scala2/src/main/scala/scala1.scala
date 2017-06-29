@@ -50,7 +50,7 @@ object scala1 {
 
       // Anonymous funcs:
       // also note funcs don't need braces if single expression
-      (x: Int) => x * x
+      // (x: Int) => x * x
 
       // Unlike defs, input type of anonymous funcs can be omitted if clear.
       // Notice the type "Int => Int" (input = Int, output = Int)
@@ -74,6 +74,48 @@ object scala1 {
       // can specify any params in any order, due to default params
       val d = new Complex(apublicvar = 3, imaginary = 3.4)
       println(d)
+    }
+
+    {
+      /* NESTED CLASSES */
+
+      object One {
+        def hello = "boo";
+
+        object Two {
+          def ow = hello
+        }
+
+      }
+      assert(One.Two.ow == "boo")
+    }
+
+    {
+      /* CHAINING METHODS */
+
+      // can declare nested classes, will be defined in scope
+      class Counter(var count: Int = 0) {
+        def inc: Counter = {
+          count += 1
+          this
+        }
+
+        def dec: Counter = {
+          count -= 1
+          this
+        }
+
+        // private func
+        private def secretvar = "boo"
+
+        // protected func
+        protected def secretvar2 = "boo2"
+
+        // abstract func (can only be in abstract classes)
+        // abstract def asdf;
+      }
+      // example of chaining methods
+      assert(new Counter(10).inc.dec.inc.inc.count == 12)
     }
 
     {
@@ -131,11 +173,12 @@ object scala1 {
       /* MISCELLANEOUS */
 
       // Input and output
-
+      /*
       // To read a file line by line
       import scala.io.Source //import statements work ANYWHERE!!!
       // current working dir is at project base (where build.sbt is)
       Source.fromFile("./src/main/scala/scala1.scala").getLines() foreach println
+      */
 
       import java.io.PrintWriter
       // To write a file use Java's PrintWriter
@@ -143,7 +186,7 @@ object scala1 {
       writer.write("Writing line for line" + util.Properties.lineSeparator)
       writer.write("Another line here" + util.Properties.lineSeparator)
       writer.close()
-    }
 
+    }
   }
 }

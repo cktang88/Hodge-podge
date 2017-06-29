@@ -3,34 +3,6 @@ import scala.annotation.tailrec
 object scala2 {
   def main(args: Array[String]): Unit = {
     {
-      /* NESTED CLASSES, CHAINING METHODS */
-
-      // can declare nested classes, will be defined in scope
-      class Counter(var count: Int = 0) {
-        def inc: Counter = {
-          count += 1
-          this
-        }
-
-        def dec: Counter = {
-          count -= 1
-          this
-        }
-
-        // private func
-        private def secretvar = "boo"
-
-        // protected func
-        protected def secretvar2 = "boo2"
-
-        // abstract func (can only be in abstract classes)
-        // abstract def asdf;
-      }
-      // example of chaining methods
-      assert(new Counter(10).inc.dec.inc.inc.count == 12)
-    }
-
-    {
       /* APPLY KEYWORD */
 
       // this acts like a "function" that logs all the things you pass it!
@@ -271,6 +243,15 @@ object scala2 {
       assert("Retriever".breed == "Golden Retriever") // => "Golden Retriever"
       assert("Sheperd".bark == "No i won't bark.") // => "Woof, woof!"
       // above, strings are IMPLICITLY converted to Dog objects using the previous implicit func!
+
+
+      // practice with implicits
+      class Thing(val n: Int) {
+        def foo(c: Int) = math.max(n, c)
+      }
+      implicit def lol(n: Int) = new Thing(n)
+      assert((1 foo 2 foo 3) == 3)
+      assert(List(1,2,3).reduceLeft((x, y) => x foo y) == 3)
     }
     {
       /* TRAITS */
@@ -356,11 +337,23 @@ object scala2 {
     {
       /* GENERICS */
 
+      // allows us to abstract types, while maintaining specificity
+
       def generic[A](in: A): A = in
-      generic[String]("foo")
-      // res: String = foo
-      generic(1) // again, if we omit the type parameter, scala will infer it
-      // res: Int = 1
+      generic[String]("foo") // res: String = foo
+      // if omitted type parameter, scala will infer it
+      generic(1) // res: Int = 1
+
+
+      // functions as parameters & generics
+      import Numeric.Implicits._
+      def weirdfunc[T : Numeric](message: String, f: (T, T) => T, x: T, y: T){
+        println(message + s" ${f(x, y)}")
+      }
+      def add: (Int, Int) => Int = (x,y) => x+y // anonymous func
+      def subtract[T: Numeric](x: T, y: T) : T = x-y // generic func
+      weirdfunc("Adding: ", add, 3, 5)
+      weirdfunc[Double]("Subtracting: ", subtract[Double], 3, 5)
     }
   }
 }
