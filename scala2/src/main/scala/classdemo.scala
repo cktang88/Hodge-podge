@@ -1,5 +1,3 @@
-// pure classes, with something resembling constructor
-
 // can declare var inline with param declaration
 // default params
 class Complex(real: Double = 0, imaginary: Double = 0, var apublicvar: Int = 0) {
@@ -44,22 +42,4 @@ class Complex(real: Double = 0, imaginary: Double = 0, var apublicvar: Int = 0) 
     Implicit class allows you to add a new method, but not to override the method that already is there.
     src: https://stackoverflow.com/questions/17271270/is-it-possible-to-override-built-in-operators-in-scala
   */
-}
-
-object Runme {
-  // making a new starting point...
-  def main(args: Array[String]): Unit = {
-    var c = new Complex(2.3, 4.5, 3)
-    // c.im = 5; // invalid
-    println("Imaginary: " + c.im)
-    c.re = 5 // valid
-    println("Real: " + c.re)
-    println("String: " + c.toString)
-    c.apublicvar = 4 // valid
-    println("public var:" + c.apublicvar)
-
-    // can specify any params in any order, due to default params
-    var d = new Complex(apublicvar = 3, imaginary = 3.4)
-    println(d)
-  }
 }

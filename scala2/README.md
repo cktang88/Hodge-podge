@@ -28,3 +28,6 @@ Type hierarchy:
 If type ambiguous, Scala chooses their closest common ancestor.
 * Why no "i++" in Scala - https://stackoverflow.com/questions/4520463/why-no-i-in-scala
 * Scala’s == operator is smart - it delegates to equals rather than comparing values on reference identity
+
+* What are futures? Actor support?
+* Most of the object-oriented design patterns which require loads of boilerplate code in Java are supported natively, e.g. Singleton (via objects), Adapter, Decorator (via traits and implicits), Visitor (via pattern matching), Strategy (via closures) etc.

@@ -1,118 +1,8 @@
-// can import java libs (note underscore instead of asterisk)
-import java.util.{Date, Locale}
-import java.text.DateFormat._
-import java.text.DateFormat
-
-// Rename an import using '=>'
-import scala.util.{Random => Rand}
-
-// singleton - declares both a class and an object
-// replaces static classes/methods
-object HelloWorld {
+object scala2 {
   def main(args: Array[String]): Unit = {
-    // Java interop
-    val now = new Date()
-    val df = getDateInstance(LONG, Locale.US)
-    // note infix syntax
-    println("Today is " + (df format now) + ".") // same as df.format(now)
-
-    /*
-    Scala is a pure object-oriented language in the sense that everything is an object,
-    including numbers, functions, even operators. No primitives.
-    */
-
-    var a = 1 + 2 * 3 / 4 // same as (1).+(((2).*(3))./(x))
-    // assertions!
-    assert(a == 2)
-    val b = 1.+(2)
-    assert(b.isInstanceOf[Int])
-    val c = 1.0 + 2
-    assert(!c.isInstanceOf[Int]) // is double
-
-    // scala allows nested functions! :)
-    // also note anonymous functions, lambda
     {
-      def oncePerSecond(callback: () => Unit) {
-        //note that b is still defined from parent function closure
-        println(b)
-        a = 0
-        while (a < 5) {
-          callback()
-          Thread sleep 100
-          a += 1
-        }
-      }
+      /* NESTED CLASSES, CHAINING METHODS */
 
-      def timeFlies() {
-        println("time flies like an arrow...")
-      }
-
-      // oncePerSecond(timeFlies);
-    }
-
-    {
-      // Anonymous funcs:
-      // also note funcs don't need braces if single expression
-      (x: Int) => x * x
-    }
-
-    {
-      // Unlike defs, input type of anonymous funcs can be omitted if clear.
-      // Notice the type "Int => Int" (input = Int, output = Int)
-      val sq: Int => Int = x => x * x
-      // assertions!
-      assert(sq(10) == 100)
-
-
-      val num = new Complex(2.2, 4.5, 3)
-      println(num.toString)
-
-      // technically should have done "var myArray : Array[String] = new Array[String](10);"
-      var myArray = new Array[String](5)
-      // note: reassignment error will occur if you try to initialize myArray as a 'val'
-      myArray = Array.fill(3) {
-        Rand.nextInt(1000).toString
-      }
-      // note the use of template strings
-      // for loop
-      for (i <- myArray.indices)
-        println(s"$i'th element: " + myArray(i))
-
-      println("-----")
-      // foreach loop
-      for (i <- myArray)
-        println(s"${myArray.indexOf(i)}'th element: " + i)
-
-      // best iteration, using idiomatic Scala
-      myArray map println
-
-      // MAPS (dictionary)
-      val some_mapping = Map("ST" -> "started", "IP" -> "in progress", "DN" -> "done")
-      some_mapping.keys.foreach(key => println(key + "=>" + some_mapping(key)))
-
-      // their closest common ancestor is Any, which is the grand supertype of all Scala types.
-      if (1 > 2) "alien" else 2001 // type = "Any", value = 2001
-    val noelse = if (false) "hello" // type = "Any", value = Unit
-
-      assert(noelse != null && noelse == {}) // not null, = {}
-
-      //idiomatic scala - looping via recursion
-      def showNumbersInRange(a: Int, b: Int): String = {
-        if (a < b)
-          a.toString + " " + showNumbersInRange(a + 1, b)
-        else ""
-      }
-
-      assert(showNumbersInRange(9, 14) == "9 10 11 12 13 ")
-
-
-      // TUPLES
-      val divideInts = (x: Int, y: Int) => (x / y, x % y, x % y == 0)
-      val (div, mod, isMultiple) = divideInts(10, 3)
-      assert(div == 3 && mod == 1 && !isMultiple)
-    }
-
-    {
       // can declare nested classes, will be defined in scope
       class Counter(var count: Int = 0) {
         def inc: Counter = {
@@ -139,6 +29,8 @@ object HelloWorld {
     }
 
     {
+      /* APPLY KEYWORD */
+
       // this acts like a "function" that logs all the things you pass it!
       class LoggedAdder(var amount: Int = 0) {
         // note: Scala lists represent a linked list, immutable (functional paradigm)
@@ -148,7 +40,7 @@ object HelloWorld {
         // companion object/class, factory
         var args_log = List[Int]()
 
-        // Naming a method apply affords us a special shortened call syntax: foo.apply(args) becomes foo(args)
+        // "apply" method shortcut: foo.apply(args) becomes foo(args)
         def apply(in: Int): Int = {
           // add to log
           args_log ::= in
@@ -173,6 +65,8 @@ object HelloWorld {
     }
 
     {
+      /* COMPANION OBJECTS */
+
       /*
       Companion objects provide us with a means to associate functionality with a class
       without associating it with any instance of that class. (like Java's static)
@@ -196,19 +90,19 @@ object HelloWorld {
 
       // also:
       val ts = new Timestamp(3000) // type, creating a new class instance
-    val ts2 = Timestamp(1, 1, 1) // value, = Timestamp.apply(...)
+      val ts2 = Timestamp(1, 1, 1) // value, = Timestamp.apply(...)
 
     }
 
     {
+      /* CASE CLASSES */
 
       /* The primary purpose of case classes is to hold immutable data.
-         They often have few methods, and the methods rarely have side-effects.
+         They often have few methods, rarely have side-effects.
          Use regular classes for encapsulation, polymorphism, behaviors.
-       */
+      */
 
-
-      //Case classes - shorthand for defining a class + companion object + sensible defaults
+      //shorthand for defining a class + companion object + sensible defaults
       case class Person(firstName: String = "", lastName: String = "") {
         def name = firstName + " " + lastName
       }
@@ -225,10 +119,12 @@ object HelloWorld {
       /* Case companion object default features:
       1. Has "apply" method with the same args as class constructor. Scala programmers
       prefer the apply method over the constructor for the brevity of omiting "new".
-
        */
 
+
+
       /* PATTERN MATCHING */
+
       object Stormtrooper {
         def inspect(person: Person): String =
           person match {
@@ -283,10 +179,11 @@ object HelloWorld {
       assert(patternFunc(Person(firstName = "notgeorge")) == "stranger")
       assert(patternFunc(Person(firstName = "George")) == "hi george")
 
-
     }
 
     {
+      /* RETURN KEYWORD */
+
       // The return keyword exists in Scala, but it only returns from the inner-most
       // def that surrounds it.
       // WARNING: Using return in Scala is error-prone and should be avoided.
@@ -301,12 +198,17 @@ object HelloWorld {
         anonFunc(x) + 1 // This line is the return value of foo
       }
 
-      assert(foo(5) == 8) // because 5+2+1 = 8
-      assert(foo(6) == 6) // because makes z the return value of foo!! (to fix, don't use return statements)
+      assert(foo(5) == 8) // 5+2+1 = 8
+      assert(foo(6) == 6) // makes z the return value of foo!! (to fix, don't use return statements)
     }
 
     {
-      // FUNCTIONAL PARADIGM
+      /* FUNCTIONAL PARADIGM */
+
+      /* map vs foreach
+         map: collection => collection
+         foreach: collection => Unit (designed to execute functions with side-effects)
+       */
 
       List(1, 2, 3) map (x => x + 10)
       // shorthand: underscore symbol can be used if only one arg, bound to variable
@@ -322,8 +224,8 @@ object HelloWorld {
       val sum = a.reduce(_ + _)
       assert(sum == 4)
       // reduce to find max
-      val m = List(1,3,4,792,3,2,1)
-      assert(m.reduceLeft((x,y) => x max y) == 792)
+      val m = List(1, 3, 4, 792, 3, 2, 1)
+      assert(m.reduceLeft((x, y) => x max y) == 792)
 
 
       // For-comprehensions
@@ -334,21 +236,25 @@ object HelloWorld {
 
     }
     {
-      // IMPLICITS
+      /* IMPLICITS */
+
+      // implicits can be used to extend existing classes!
 
       // Any value (vals, functions, objects, etc) can be declared to be implicit
       // doesn't change behavior...
-      class Dog(val breed : String){
+      class Dog(val breed: String) {
         def bark = "No i won't bark."
       }
       implicit val myImplicitInt = 100
+
       implicit def myImplicitFunction(breed: String) = new Dog("Golden " + breed)
 
 
       // these values are now used when another piece of code "needs" an implicit value.
       def sendGreetings(toWhom: String)(implicit howMany: Int) =
-      s"Hello $toWhom, $howMany blessings to you and yours!"
-      println(sendGreetings("Jane"))  // => "Hello Jane, 100 blessings to you and yours!"
+        s"Hello $toWhom, $howMany blessings to you and yours!"
+
+      println(sendGreetings("Jane")) // => "Hello Jane, 100 blessings to you and yours!"
 
       //what happens if more than one implicit ints???
 
@@ -364,29 +270,9 @@ object HelloWorld {
       // if there is an implicit conversion of type A => B, where A is the type of obj, and B has a
       // method called "method", that conversion is applied. So having
       // myImplicitFunction above in scope, we can say:
-      assert("Retriever".breed=="Golden Retriever") // => "Golden Retriever"
-      assert("Sheperd".bark=="No i won't bark.")    // => "Woof, woof!"
+      assert("Retriever".breed == "Golden Retriever") // => "Golden Retriever"
+      assert("Sheperd".bark == "No i won't bark.") // => "Woof, woof!"
       // in the above, the strings are IMPLICITLY converted to Dog objects using the previous implicit func!
     }
-
-    {
-      // MISCELLANEOUS - input & output
-      // Input and output
-
-      // To read a file line by line
-      import scala.io.Source //import statements work ANYWHERE!!!
-      // current working dir is at project base (where build.sbt is)
-      Source.fromFile("./src/main/scala/helloworld.scala").getLines() foreach println
-
-      import java.io.PrintWriter
-      // To write a file use Java's PrintWriter
-      val writer = new PrintWriter("myfile.txt")
-      writer.write("Writing line for line" + util.Properties.lineSeparator)
-      writer.write("Another line here" + util.Properties.lineSeparator)
-      writer.close()
-
-
-    }
-
   }
 }
