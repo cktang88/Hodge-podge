@@ -2,6 +2,21 @@
 
 > test feathers app
 
+Customization:
+1. ```$feathers generate app```
+
+* [x] remove user email from package.json
+* [x] add eslint-airBnB config & update lint script & add eslint files
+* [x] add nodemon & update start script & add nodemon config ignore file
+* [x] add feathers-authentication
+* [x] add feathers-mongodb (still has promises)
+
+> replace winston with Bunyan?
+
+> add feathers-client, feathers-authentication-client?
+
+> with Vue see https://github.com/feathersjs/feathers-chat-vuex
+
 ## About
 
 This project uses [Feathers](http://feathersjs.com). An open source web framework for building modern real-time applications.
