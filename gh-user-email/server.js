@@ -1,27 +1,41 @@
-//find user email
+//Find Github user email. Zero dependencies.
+'use strict';
+const fetch = (domain, path) => new Promise((resolve, reject) => {
+  // adapted from https://www.tomas-dvorak.cz/posts/nodejs-request-without-dependencies/
+  const lib = require('https'); //may need to use http
+  const options = {
+    hostname: domain,
+    path: path,
+    headers: {
+      'User-Agent': 'asdf'
+    }
+  }
+  const request = lib.get(options, (response) => {
+    // handle http errors
+    if (response.statusCode != 200)
+      reject(new Error('Failed to load page, status code: ' + response.statusCode));
+    const body = []; // temporary data holder
+    response.on('data', chunk => body.push(chunk)); //concat chunks
+    response.on('end', () => resolve(JSON.parse(body.join('')))); // return parsed json
+  });
+  // handle connection errors of the request
+  request.on('error', err => reject(err))
+});
+
 (username => {
-	'use strict'
-	const rp = require('request-promise'); // uses bluebird promises
-	const makeurl = name => 'https://api.github.com/users/' + name;
-	const log = console.log;
-	const fetch = _url => rp({ //implicit return
-		url: _url,
-		headers: {
-			'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/39.0.2171.95 Safari/537.36'
-		},
-		json: true //autoparse JSON
-	}).then(body => {
-		return body;
-	}).catch(err => log(err.message));
-	// option1: try to get from /users/[username] page directly, most likely to fail
-	fetch(makeurl(username)).then(user => {
-		log(user.email);
-	}).catch(e => log("Error."))
-	// option2: go to /users/[username]/events page to get events, then get commits, then get email
-	fetch(makeurl(username) + '/events').then(events => {
-		const pushevents = events.filter(e => e.type === 'PushEvent');
-		const commits = pushevents[0].payload.commits;
-		//gets latest commit, because previous commits may be by different contributors
-		log(commits[commits.length - 1].author.email);
-	}).catch(e => log("Error."))
+  const gh = 'api.github.com';
+  const log = console.log;
+  // option1: try to get from /users/[username] page directly, most likely to fail
+  fetch(gh, '/users')
+    .then(user => log(user.email))
+    .catch(err => log(err))
+  // option2: go to /users/[username]/events page to get events, then get commits, then get email
+  fetch(gh, '/users/' + username + '/events')
+    .then(events => {
+      const pushevents = events.filter(e => e.type === 'PushEvent');
+      const commits = pushevents[0].payload.commits;
+      //gets latest commit, because previous commits may be by different contributors
+      log(commits[commits.length - 1].author.email);
+    })
+    .catch(err => log(err))
 })('ddyy345');
