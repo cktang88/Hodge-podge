@@ -33,10 +33,11 @@ public class concurrentplayground {
                 .subscribeOn(Schedulers.computation())
                 .map(w -> w * w)
             )
+            //.reduce((seed, value) -> seed+value)
             .blockingSubscribe(System.out::println);
 
         try {
-            Thread.sleep(2000); // wait for the flow to finish
+            Thread.sleep(5000); // wait for the flow to finish
 
         }
         catch(InterruptedException err){
