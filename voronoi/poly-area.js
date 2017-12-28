@@ -1,6 +1,7 @@
 // credit: https://github.com/math-utils/area-polygon
 
 // calculates area of irregular 2d polygons using determinants
+// need points to be organized counterclockwise or clockwise, but cell.edges are unordered?
 function polyArea (points,signed) {
   function normalize(point) {
     if (!Array.isArray(point)) return point

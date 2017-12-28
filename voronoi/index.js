@@ -1,6 +1,5 @@
 var player = 1;
-const BLANK_SCORE = [0, 0, 0];
-var scores = BLANK_SCORE;
+var scores = [0,0,0];
 
 var VoronoiDemo = {
     voronoi: new Voronoi(),
@@ -53,6 +52,7 @@ var VoronoiDemo = {
             var mouse = me.normalizeEventCoords(me.canvas, e);
             site.x = mouse.x;
             site.y = mouse.y;
+            site.owner = player;
             me.diagram = me.voronoi.compute(me.sites, me.bbox);
             // console.log(me.diagram.cells)
             me.render();
@@ -67,6 +67,7 @@ var VoronoiDemo = {
     },
 
     clearSites: function () {
+        console.log('clearSites()')
         // we want at least one site, the one tracking the mouse
         this.sites = [{
             x: 0,
@@ -77,6 +78,7 @@ var VoronoiDemo = {
     },
 
     randomSites: function (n, clear) {
+        console.log('randomSites()')
         if (clear) {
             this.sites = [];
         }
@@ -103,27 +105,34 @@ var VoronoiDemo = {
 
         //creates a new diagram each time...
         this.diagram = this.voronoi.compute(this.sites, this.bbox);
-        console.log(this.sites);
-        console.log(this.diagram.cells)
+        // NOTE: THERE IS ALWAYS ONE MORE SITE THAN CELL!!!
+        //console.log(this.sites);
+        //console.log(this.diagram.cells)
         // recompute vertices from each cell & update score
-        scores = BLANK_SCORE;
+        scores = [0,0,0];
+        console.log(scores);
         this.diagram.cells.forEach(cell => {
             cell.vertices = [];
             cell.halfedges.forEach(he => cell.vertices.push(he.getStartpoint()))
+            //console.log(cell.vertices)
             var owner = cell.site.owner;
             if (owner >= 0) {
                 // compute area and add to score
                 scores[owner] += polyArea(cell.vertices, false);
             }
+            else
+                scores[0] += polyArea(cell.vertices, false);
         });
+        console.log(scores);
+        console.log('new site added, owned by player ' + player);
 
         // toggle player turn
         player = player === 1 ? 2 : 1;
         // console.log(player)
 
         // update score on page
-        document.getElementById('p1score').innerHTML = 'Player1: ' + scores[1];
-        document.getElementById('p2score').innerHTML = 'Player2: ' + scores[2];
+        document.getElementById('p1score').innerHTML = 'Player1: ' + scores[1].toFixed(2);
+        document.getElementById('p2score').innerHTML = 'Player2: ' + scores[2].toFixed(2);
     },
 
     render: function () {
@@ -141,23 +150,7 @@ var VoronoiDemo = {
         if (!this.diagram) {
             return;
         }
-        ctx.strokeStyle = '#000';
-        // edges
-        var edges = this.diagram.edges,
-            nEdges = edges.length,
-            v;
-        if (nEdges) {
-            var edge;
-            ctx.beginPath();
-            while (nEdges--) {
-                edge = edges[nEdges];
-                v = edge.va;
-                ctx.moveTo(v.x, v.y);
-                v = edge.vb;
-                ctx.lineTo(v.x, v.y);
-            }
-            ctx.stroke();
-        }
+
         // how many sites do we have?
         var sites = this.sites,
             nSites = sites.length;
@@ -182,12 +175,32 @@ var VoronoiDemo = {
         // draw sites
         var site;
         ctx.beginPath();
-        ctx.fillStyle = '#333';
+        ctx.fillStyle = '#000';
         while (nSites--) {
             site = sites[nSites];
             ctx.rect(site.x - 2 / 3, site.y - 2 / 3, 2, 2);
         }
         ctx.fill();
+
+
+                
+        ctx.strokeStyle = '#3521EB';
+        // draw all edges
+        var edges = this.diagram.edges,
+            nEdges = edges.length,
+            v;
+        if (nEdges) {
+            var edge;
+            ctx.beginPath();
+            while (nEdges--) {
+                edge = edges[nEdges];
+                v = edge.va;
+                ctx.moveTo(v.x, v.y);
+                v = edge.vb;
+                ctx.lineTo(v.x, v.y);
+            }
+            ctx.stroke();
+        }
     },
 };
 
@@ -205,7 +218,7 @@ function drawCell(ctx, cell) {
         var owner = cell.site.owner;
         // switch player color based on owner
         if (owner < 0)
-            ctx.fillStyle = '#888'; // noone owns
+            ctx.fillStyle = '#ccc'; // noone owns
         else if (owner === 1)
             ctx.fillStyle = '#faa'; // p1
         else if (owner === 2)
