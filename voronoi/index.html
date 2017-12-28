@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<title>Javascript implementation of Steven Fortune's algorithm to compute Voronoi diagrams: Demo 2</title>
+	<meta name="Keywords" lang="en" content="voronoi, fortune, javascript, raymond hill" />
+	<!--[if lte IE 8]><script type="text/javascript" src="excanvas/excanvas.compiled.js"></script><![endif]-->
+	<script type="text/javascript" src="rhill-voronoi-core.min.js"></script>
+	<link rel="stylesheet" type="text/css" href="index.css">
+	<script id="script" type="text/javascript" src='index.js'></script>
+</head>
+
+<body onload="VoronoiDemo.init();">
+	<h1>Voronoi</h1>
+	<div id="divroot" style="width:800px;">
+
+		<h4 class="divhdr">Sites generator</h4>
+		<div class="divinfo" id="voronoiGenerator">
+			<input type="button" value="Generate" onclick="VoronoiDemo.randomSites(parseInt(document.getElementById('voronoiNumberSites').value,10),true);VoronoiDemo.render();"
+			/> or
+			<input type="button" value="Add" onclick="VoronoiDemo.randomSites(parseInt(document.getElementById('voronoiNumberSites').value,10),false);VoronoiDemo.render();"
+			/>
+			<input id="voronoiNumberSites" type="text" value="10" size="5" maxlength="5" /> sites randomly
+			<br/>
+			<input id="voronoiClearSites" type="button" value="Clear all sites" onclick="VoronoiDemo.clearSites();VoronoiDemo.render();"
+			/>
+		</div>
+		<h4 class="divhdr">Canvas</h4>
+		<div id="canvasParent">
+			<noscript>You need to enable Javascript in your browser for this page to display properly.</noscript>
+			<canvas id="voronoiCanvas" style="cursor:crosshair" width="800" height="600"></canvas>
+		</div>
+
+	</div>
+</body>
+
+</html>
