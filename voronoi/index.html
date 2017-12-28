@@ -7,6 +7,7 @@
 	<meta name="Keywords" lang="en" content="voronoi, fortune, javascript, raymond hill" />
 	<!--[if lte IE 8]><script type="text/javascript" src="excanvas/excanvas.compiled.js"></script><![endif]-->
 	<script type="text/javascript" src="rhill-voronoi-core.min.js"></script>
+	<script type='text/javascript' src='poly-area.js'></script>
 	<link rel="stylesheet" type="text/css" href="index.css">
 	<script id="script" type="text/javascript" src='index.js'></script>
 </head>
@@ -17,14 +18,25 @@
 
 		<h4 class="divhdr">Sites generator</h4>
 		<div class="divinfo" id="voronoiGenerator">
+
 			<input type="button" value="Generate" onclick="VoronoiDemo.randomSites(parseInt(document.getElementById('voronoiNumberSites').value,10),true);VoronoiDemo.render();"
-			/> or
+			/>
+			<!--
+			or
 			<input type="button" value="Add" onclick="VoronoiDemo.randomSites(parseInt(document.getElementById('voronoiNumberSites').value,10),false);VoronoiDemo.render();"
 			/>
+			-->
 			<input id="voronoiNumberSites" type="text" value="1" size="5" maxlength="5" /> sites randomly
-			<br/>
-			<input id="voronoiClearSites" type="button" value="Clear all sites" onclick="VoronoiDemo.clearSites();VoronoiDemo.render();"
-			/>
+			<br><br/>
+			<div>
+				Player1: 0
+			</div>
+			<div>
+				Player2: 0
+			</div>
+			</div>
+
+			<input id="voronoiClearSites" type="button" value="Clear" onclick="VoronoiDemo.clearSites();VoronoiDemo.render();" />
 		</div>
 		<h4 class="divhdr">Canvas</h4>
 		<div id="canvasParent">

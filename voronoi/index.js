@@ -1,3 +1,6 @@
+var player = 1;
+var scores = [0,0,0];
+
 var VoronoiDemo = {
     voronoi: new Voronoi(),
     sites: [],
@@ -52,7 +55,8 @@ var VoronoiDemo = {
             me.addSite(mouse.x, mouse.y);
             me.render();
         };
-        this.randomSites(10, true);
+        // for kicks, start with random value??
+        // this.randomSites(5, true);
         this.render();
     },
 
@@ -60,7 +64,8 @@ var VoronoiDemo = {
         // we want at least one site, the one tracking the mouse
         this.sites = [{
             x: 0,
-            y: 0
+            y: 0,
+            owner: -1 // neutral start
         }];
         this.diagram = this.voronoi.compute(this.sites, this.bbox);
     },
@@ -76,7 +81,8 @@ var VoronoiDemo = {
         for (var i = 0; i < n; i++) {
             this.sites.push({
                 x: self.Math.round(xo + self.Math.random() * dx),
-                y: self.Math.round(yo + self.Math.random() * dy)
+                y: self.Math.round(yo + self.Math.random() * dy),
+                owner: -1 // neutral start
             });
         }
         this.diagram = this.voronoi.compute(this.sites, this.bbox);
@@ -85,15 +91,24 @@ var VoronoiDemo = {
     addSite: function (x, y) {
         this.sites.push({
             x: x,
-            y: y
+            y: y,
+            owner: player
         });
+        //creates a new diagram each time...
         this.diagram = this.voronoi.compute(this.sites, this.bbox);
+
         // recompute vertices from each cell
         this.diagram.cells.forEach(cell => {
             cell.vertices = [];
             cell.halfedges.forEach(he => cell.vertices.push(he.getStartpoint()))
-            console.log(cell.vertices);
+            if(player>=0){
+                // compute area and add to score
+                score[player] += polyArea(cell.vertices, false);
+            }
         });
+
+        // toggle player
+        player = player===1 ? 2 : 1;
     },
 
     render: function () {
@@ -149,7 +164,13 @@ var VoronoiDemo = {
                     v = halfedges[iHalfedge].getEndpoint();
                     ctx.lineTo(v.x, v.y);
                 }
-                ctx.fillStyle = '#faa';
+                // switch player color based on owner
+                if(cell.owner <0 )
+                    ctx.fillStyle = '#aaa'; // noone owns
+                else if(cell.owner === 1)
+                    ctx.fillStyle = '#faa'; // p1
+                else if(cell.owner === 2)
+                    ctx.fillStyle = '#afa'; // p2
                 ctx.fill();
             }
         }
