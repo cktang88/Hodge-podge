@@ -88,6 +88,12 @@ var VoronoiDemo = {
             y: y
         });
         this.diagram = this.voronoi.compute(this.sites, this.bbox);
+        // recompute vertices from each cell
+        this.diagram.cells.forEach(cell => {
+            cell.vertices = [];
+            cell.halfedges.forEach(he => cell.vertices.push(he.getStartpoint()))
+            console.log(cell.vertices);
+        });
     },
 
     render: function () {
@@ -129,6 +135,7 @@ var VoronoiDemo = {
         }
         // highlight cell under mouse
         var cell = this.diagram.cells[this.sites[0].voronoiId];
+
         // there is no guarantee a Voronoi cell will exist for any
         // particular site
         if (cell) {
