@@ -2,15 +2,12 @@
 'use strict';
 const fetch = (domain, path) => new Promise((resolve, reject) => {
   // adapted from https://www.tomas-dvorak.cz/posts/nodejs-request-without-dependencies/
-  const lib = require('https'); //may need to use http
   const options = {
     hostname: domain,
     path: path,
-    headers: {
-      'User-Agent': 'asdf'
-    }
+    headers: {'User-Agent': 'asdf'}
   }
-  const request = lib.get(options, (response) => {
+  const request = require('https').get(options, (response) => {
     // handle http errors
     if (response.statusCode != 200)
       reject(new Error('Failed to load page, status code: ' + response.statusCode));
@@ -21,7 +18,6 @@ const fetch = (domain, path) => new Promise((resolve, reject) => {
   // handle connection errors of the request
   request.on('error', err => reject(err))
 });
-
 (username => {
   const gh = 'api.github.com';
   const log = console.log;
@@ -38,4 +34,4 @@ const fetch = (domain, path) => new Promise((resolve, reject) => {
       log(commits[commits.length - 1].author.email);
     })
     .catch(err => log(err))
-})('ddyy345');
+})('jlevy');
