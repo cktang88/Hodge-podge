@@ -1,4 +1,11 @@
-var TankGame = (function() {
+var Game = (function () {
+
+  var TARGET_WIDTH = 801; // Desired width
+  var TARGET_HEIGHT = 601;
+  var WIDTH; // Actual width of game, scaled to fit screen
+  var HEIGHT;
+  var GUI_HEIGHT = 150;
+  var DEBUG = false;
   /*
   ===============================================================================
   ----------------------------COLLISION DETECTION--------------------------------
@@ -50,14 +57,14 @@ var TankGame = (function() {
 
     // Add listeners for keydown and keyup
     KEYSTATE = {};
-    document.addEventListener("keydown", function(evt) {
-      if([32, 37, 38, 39, 40].indexOf(evt.keyCode) > -1) {
-          evt.preventDefault(); // Prevent scrolling with arrowkeys and spacebar
+    document.addEventListener("keydown", function (evt) {
+      if ([32, 37, 38, 39, 40].indexOf(evt.keyCode) > -1) {
+        evt.preventDefault(); // Prevent scrolling with arrowkeys and spacebar
       }
       KEYSTATE[evt.keyCode] = true;
     });
 
-    document.addEventListener("keyup", function(evt) {
+    document.addEventListener("keyup", function (evt) {
       delete KEYSTATE[evt.keyCode];
     });
 
@@ -68,7 +75,7 @@ var TankGame = (function() {
     var frames = 0;
     var iteration_time = 0;
 
-    var loop = function() {
+    var loop = function () {
       /*
         The main loop where all the magic happens.
       */
@@ -83,7 +90,7 @@ var TankGame = (function() {
       if (DEBUG) {
         frames++;
         if (Date.now() - previous_time > 1000) {
-          console.log(frames + "  :  " + (iteration_time/frames));
+          console.log(frames + "  :  " + (iteration_time / frames));
           previous_time = Date.now();
           iteration_time = 0;
           frames = 0;
@@ -210,7 +217,7 @@ var TankGame = (function() {
       CTX.fillText("Player Two: " + P2_SCORE, P2_offset_x, 50);
       if (END_ROUND === true) {
         CTX.fillStyle = "blue";
-        CTX.fillText("Next round in: " + (RESET_COUNTER_MAX - RESET_COUNTER), P2_offset_x/2, 50);
+        CTX.fillText("Next round in: " + (RESET_COUNTER_MAX - RESET_COUNTER), P2_offset_x / 2, 50);
       }
       CTX.fillStyle = "#000";
       CTX.font = "16px Arial";
@@ -288,9 +295,10 @@ var TankGame = (function() {
       set_ind1 = find_cell_set(cell_1, sets);
       set_ind2 = find_cell_set(cell_2, sets);
       if (!(set_ind1 === set_ind2)) {
-        var joined_set = new Set(function*() {
-          yield* sets[set_ind1]; yield* sets[set_ind2]; }()
-        );
+        var joined_set = new Set(function* () {
+          yield* sets[set_ind1];
+          yield* sets[set_ind2];
+        }());
         delete sets[set_ind1];
         delete sets[set_ind2];
         sets.push(joined_set);
@@ -301,7 +309,7 @@ var TankGame = (function() {
     cell_size_min = 30;
     cell_size_max = 100;
     rand = Math.random();
-    CELL_SIZE = 30 + (rand * (100-30)); // A random number between min and max
+    CELL_SIZE = 30 + (rand * (100 - 30)); // A random number between min and max
     CELL_SIZE = Math.floor(CELL_SIZE);
     console.log(CELL_SIZE);
     console.log(CELL_SIZE % 5);
@@ -353,7 +361,7 @@ var TankGame = (function() {
       if (right_walls.length > 0 && Math.random() < vert_prob) {
         var cell = right_walls.pop();
         if (cell.ind_x + 1 < CELLS_X) {
-          next_cell = cells[cell.ind_x+1][cell.ind_y];
+          next_cell = cells[cell.ind_x + 1][cell.ind_y];
           // Check if the cell on right belongs to the same set (already connected)
           if (join_cell_sets(cell, next_cell, cell_sets)) {
             cell.right_wall = false;
@@ -367,7 +375,7 @@ var TankGame = (function() {
       if (bottom_walls.length > 0 && Math.random() < horiz_prob) {
         var cell = bottom_walls.pop();
         if (cell.ind_y + 1 < CELLS_Y) {
-          next_cell = cells[cell.ind_x][cell.ind_y+1];
+          next_cell = cells[cell.ind_x][cell.ind_y + 1];
           // Check if the cell below belongs to the same set (already connected)
           if (join_cell_sets(cell, next_cell, cell_sets)) {
             cell.bottom_wall = false;
@@ -385,18 +393,18 @@ var TankGame = (function() {
         cell = column[cell_ind];
         var x = cell.x;
         var y = cell.y;
-        var s = CELL_SIZE/2;
-        var w = WALL_WIDTH/2;
+        var s = CELL_SIZE / 2;
+        var w = WALL_WIDTH / 2;
         if (cell.bottom_wall) {
-          let wall = new GameObject(x, y+s, s*2, w*2);
-          if (cell_ind == column.length-1) {
+          let wall = new GameObject(x, y + s, s * 2, w * 2);
+          if (cell_ind == column.length - 1) {
             // Make the border walls indestructible
             wall.set_destructible(false);
           }
         }
         if (cell.right_wall) {
-          let wall = new GameObject(x+s, y, w*2, s*2);
-          if (column_ind == cells.length-1) {
+          let wall = new GameObject(x + s, y, w * 2, s * 2);
+          if (column_ind == cells.length - 1) {
             // Make the border walls indestructible
             wall.set_destructible(false);
           }
@@ -404,13 +412,13 @@ var TankGame = (function() {
 
         // Add left border wall
         if (column_ind == 0) {
-          let wall = new GameObject(x-s+1, y, w*2, s*2); // Offset by one to improve visibility
+          let wall = new GameObject(x - s + 1, y, w * 2, s * 2); // Offset by one to improve visibility
           // Make the border walls indestructible
           wall.set_destructible(false);
         }
         // Add top border wall
         if (cell_ind == 0) {
-          let wall = new GameObject(x, y-s+1, s*2, w*2); // Offset by one to improve visibility
+          let wall = new GameObject(x, y - s + 1, s * 2, w * 2); // Offset by one to improve visibility
           // Make the border walls indestructible
           wall.set_destructible(false);
         }
@@ -422,9 +430,13 @@ var TankGame = (function() {
 
   return {
     // Return some objects/methods for debugging purposes
-    GAME_OBJECTS : GAME_OBJECTS,
-    SET_DEBUG : function set_debug(value) { DEBUG = value; },
-    SET_COLLISION_DISTANCE : function set_collision_distance(value) { MAX_DIST_FOR_COLLISIONS = value; },
+    GAME_OBJECTS: GAME_OBJECTS,
+    SET_DEBUG: function set_debug(value) {
+      DEBUG = value;
+    },
+    SET_COLLISION_DISTANCE: function set_collision_distance(value) {
+      MAX_DIST_FOR_COLLISIONS = value;
+    },
   };
 
 })();

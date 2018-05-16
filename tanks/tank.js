@@ -1,3 +1,21 @@
+// WASD
+const P1_UP = 87;
+const P1_DOWN = 83;
+const P1_LEFT = 65;
+const P1_RIGHT = 68;
+const P1_FIRE = 49; // Character 1
+
+// Arrow keys
+const P2_UP = 38;
+const P2_DOWN = 40;
+const P2_LEFT = 37;
+const P2_RIGHT = 39;
+const P2_FIRE = 190; // Character .
+
+const TANK_SIZE = 15;
+const TANK_SPEED = 1;
+const TANK_TURN_SPEED = 5;
+
 class Tank extends GameObject {
     constructor(x, y, player) {
         super(x, y, TANK_SIZE, TANK_SIZE, true); // Movable=true
@@ -14,9 +32,9 @@ class Tank extends GameObject {
 
         // Add a gun
         this.set_gun(GunTypes.normal);
-        var w = this.width / 2;
-        var h = this.height / 2;
-        var last_vert = this.verts.pop();
+        const w = this.width / 2;
+        const h = this.height / 2;
+        const last_vert = this.verts.pop();
         this.verts.push(new Vector2d(w, h / 2));
         this.verts.push(new Vector2d(w * 2, h / 2));
         this.verts.push(new Vector2d(w * 2, -h / 2));
@@ -46,12 +64,12 @@ class Tank extends GameObject {
     destroy() {
         END_ROUND = true;
         this.player === P1 ? P2_SCORE++ : P1_SCORE++;
-        for (var i = 0; i < 360; i += 60) {
+        for (const i = 0; i < 360; i += 60) {
             // Spawn a ring of bullets on death
-            var radians = deg2rad(i);
-            var damage = 4;
-            var off_x = this.width * Math.cos(radians);
-            var off_y = this.width * Math.sin(radians);
+            const radians = deg2rad(i);
+            const damage = 4;
+            const off_x = this.width * Math.cos(radians);
+            const off_y = this.width * Math.sin(radians);
             new Bullet(this.pos.x + off_x, this.pos.y + off_y, i, damage);
         }
         super.destroy();
@@ -62,8 +80,8 @@ class Tank extends GameObject {
           Checks for user input and checks collisions.
         */
         if (this.fire_delay > 0) this.fire_delay--;
-        var p = this.player;
-        var radians = deg2rad(this.rotation);
+        const p = this.player;
+        const radians = deg2rad(this.rotation);
 
         if ((p == P1 && KEYSTATE[P1_UP]) || (p == P2 && KEYSTATE[P2_UP])) {
             this.velocity.x = this.speed * Math.cos(radians);
@@ -85,8 +103,8 @@ class Tank extends GameObject {
 
         if ((p == P1 && KEYSTATE[P1_FIRE]) || (p == P2 && KEYSTATE[P2_FIRE])) {
             if (this.gun.ammo > 0) {
-                var off_x = this.width * 0.9 * Math.cos(radians);
-                var off_y = this.width * 0.9 * Math.sin(radians);
+                const off_x = this.width * 0.9 * Math.cos(radians);
+                const off_y = this.width * 0.9 * Math.sin(radians);
                 this.gun.fire(this.pos.x + off_x, this.pos.y + off_y, this.rotation);
             } else {
                 this.set_gun(GunTypes.normal); // Replace all special guns with a regular gun
