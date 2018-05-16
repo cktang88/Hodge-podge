@@ -64,7 +64,7 @@ class Tank extends GameObject {
     destroy() {
         END_ROUND = true;
         this.player === P1 ? P2_SCORE++ : P1_SCORE++;
-        for (const i = 0; i < 360; i += 60) {
+        for (var i = 0; i < 360; i += 60) {
             // Spawn a ring of bullets on death
             const radians = deg2rad(i);
             const damage = 4;
