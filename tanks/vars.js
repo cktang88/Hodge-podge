@@ -1,5 +1,4 @@
 // Other settings
-
 var WALL_WIDTH = 2;
 var CELL_SIZE = 50;
 var RESET_COUNTER_MAX = 200; // Time to start next round (frames)
