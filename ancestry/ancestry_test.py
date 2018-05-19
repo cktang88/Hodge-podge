@@ -14,7 +14,7 @@ root.addChild(Node("C"))
 # 1. serialize
 ser = serialize(root)[0]
 print(ser)
-print(serialize(mid)[0])
+# print(serialize(mid)[0])
 
 # 2. deserialize
 de_root = deserialize(ser)

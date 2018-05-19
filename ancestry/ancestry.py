@@ -14,8 +14,10 @@ for any given creature.
 
 
 Constraints:
-The encoded string must only use the original symbols denoting the base species, along
+- The encoded string must only use the original symbols denoting the base species, along
 with at most ONE delimiter symbol.
+- Although a creature can be encoded by more than one string possibly, each string must identify
+a unique creature.
 
 Example:
 If we had 2 delimter symbols "(" and ")", we could do...
@@ -77,4 +79,5 @@ def serialize(root):
 check if a node represents a base species
 '''
 def isBase(node):
-    return node.name in BASE_SPECIES
+    # checks that node is named and in base species
+    return node.name and node.name in BASE_SPECIES
