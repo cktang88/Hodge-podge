@@ -33,7 +33,7 @@ import string
 
 class Node:
     # constructor
-    def __init__(self, name=""):
+    def __init__(self, name="*"):
         self.name = name
         self.parent = None
         self.left = None
@@ -46,6 +46,7 @@ class Node:
         else:
             self.right = node
 
+    # from http://krenzel.org/articles/printing-trees
     def __str__(self, depth=0):
         ret = ""
 
@@ -59,6 +60,8 @@ class Node:
         # Print left branch
         if self.left != None:
             ret += self.left.__str__(depth + 1)
+        
+        return ret
 
 BASE_SPECIES = string.ascii_uppercase
 DELIM = ","
