@@ -18,6 +18,7 @@ print(ser)
 
 # 2. deserialize
 de_root = deserialize(ser)
+print(de_root)
 
 # TODO: pretty print tree
 # eg. https://github.com/clemtoy/pptree/blob/master/pptree/pptree.py

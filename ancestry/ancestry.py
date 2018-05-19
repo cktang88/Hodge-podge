@@ -36,11 +36,29 @@ class Node:
     def __init__(self, name=""):
         self.name = name
         self.parent = None
-        self.children = []
+        self.left = None
+        self.right = None
     # add a child
     def addChild(self, node):
         node.parent = self
-        self.children.append(node)
+        if self.left == None:
+            self.left = node
+        else:
+            self.right = node
+
+    def __str__(self, depth=0):
+        ret = ""
+
+        # Print right branch
+        if self.right != None:
+            ret += self.right.__str__(depth + 1)
+
+        # Print own value
+        ret += "\n" + ("    "*depth) + str(self.name)
+
+        # Print left branch
+        if self.left != None:
+            ret += self.left.__str__(depth + 1)
 
 BASE_SPECIES = string.ascii_uppercase
 DELIM = ","
@@ -49,16 +67,24 @@ DELIM = ","
 Create an ancestral tree structure from a string
 '''
 def deserialize(s):
-    root = Node()
-    cur_node = root
-    cur_depth = 0
+    root = None
+    cur_node = None
     for i in s:
-        if i in BASE_SPECIES:
-            newnode = Node(i)
+        if i == DELIM:
+            if cur_node.parent:
+                print("back")
+                cur_node = cur_node.parent
+            else:
+                print("new")
+                root = Node()
+                root.addChild(cur_node)
+                cur_node = root
         else:
-            # parse delim
-            newnode = Node(i)
-
+            print(i)
+            if cur_node:
+                cur_node.addChild(Node(i))
+            else:
+                cur_node = Node(i)
     # placeholder
     return root
 
@@ -68,7 +94,7 @@ returns (str, max_levels_depth)
 '''
 def serialize(root):
     res = ""
-    [a, b] = root.children
+    a,b = root.left, root.right
     # recursion
     (left, a_depth) = (a.name,0) if isBase(a) else serialize(a)
     (right, b_depth) = (b.name,0) if isBase(b) else serialize(b)
