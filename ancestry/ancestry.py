@@ -32,19 +32,21 @@ A(BC)
 import string
 
 class Node:
-    # constructor
-    def __init__(self, name="*"):
+    # alt constructor, initializing with both children
+    def __init__(self, left_child = None, right_child = None, name="*"):
         self.name = name
+        self.left = left_child
+        self.right = right_child
         self.parent = None
-        self.left = None
-        self.right = None
     # add a child
     def addChild(self, node):
         node.parent = self
         if self.left == None:
             self.left = node
-        else:
+        elif self.right == None:
             self.right = node
+        else:
+            print("Node has two children already.")
 
     # from http://krenzel.org/articles/printing-trees
     def __str__(self, depth=0):
@@ -70,10 +72,11 @@ DELIM = ","
 Create an ancestral tree structure from a string
 '''
 def deserialize(s):
+    ### iterate
     root = None
     cur_node = None
-    for i in s:
-        if i == DELIM:
+    for c in s:
+        if c == DELIM:
             if cur_node.parent:
                 print("back")
                 cur_node = cur_node.parent
@@ -81,13 +84,16 @@ def deserialize(s):
                 print("new")
                 root = Node()
                 root.addChild(cur_node)
+                print(cur_node.parent)
                 cur_node = root
         else:
-            print(i)
-            if cur_node:
-                cur_node.addChild(Node(i))
-            else:
-                cur_node = Node(i)
+            print(c)
+            if cur_node == None:
+                cur_node = Node()
+            newnode = Node(c)
+            cur_node.addChild(newnode)
+            cur_node = newnode
+            
     # placeholder
     return root
 

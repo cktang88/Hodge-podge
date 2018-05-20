@@ -4,12 +4,13 @@ from ancestry import *
 print("Testing...")
 
 # create tree
-root = Node()
-mid = Node("")
-mid.addChild(Node("A"))
-mid.addChild(Node("B"))
-root.addChild(mid)
-root.addChild(Node("C"))
+# tree1
+b1 = Node(Node(name="A"), Node(Node(name="B"), Node(name="C")))
+b2 = Node(Node(name="D"), Node(name="E"))
+root = Node(b1, b2)
+# tree2
+# root = Node(Node(name="A"), Node(Node(name="B"), Node(name="C")))
+# print(root)
 
 # 1. serialize
 ser = serialize(root)[0]
