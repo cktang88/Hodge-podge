@@ -11,6 +11,6 @@
   "author": "cktang88",
   "license": "MIT",
   "dependencies": {
-    "boardgame.io": "^0.22.1"
+    "boardgame.io": "^0.25.4"
   }
 }
