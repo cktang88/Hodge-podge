@@ -1,5 +1,7 @@
 # Hodge-podge
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/cktang88/Hodge-podge.svg)](https://greenkeeper.io/)
+
 A collection of experimental stuff
 
 Contents:
