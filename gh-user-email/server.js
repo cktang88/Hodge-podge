@@ -22,7 +22,7 @@ const fetch = (domain, path) => new Promise((resolve, reject) => {
   const gh = 'api.github.com';
   const log = console.log;
   // option1: try to get from /users/[username] page directly, most likely to fail
-  fetch(gh, '/users')
+  fetch(gh, '/users/' + username)
     .then(user => log(user.email))
     .catch(err => log(err))
   // option2: go to /users/[username]/events page to get events, then get commits, then get email
