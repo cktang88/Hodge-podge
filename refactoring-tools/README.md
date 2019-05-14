@@ -1,3 +1,24 @@
+## if-else-convert
+
+Refactors long if/else chains.
+Usage:
+
+1. Paste original if/else chain into `in.js`
+
+2. Run the converter
+
+```bash
+./ifelseconvert
+```
+
+3. The output is in `out.js`
+
+Example:
+
+## Input
+
+```js
+// in.js
 if (meetingRegularityRoll > 95) {
   faction.meetingRegularity = "every day, at 5pm sharp";
 } else if (meetingRegularityRoll > 90) {
@@ -28,3 +49,10 @@ if (meetingRegularityRoll > 95) {
 } else {
   faction.meetingRegularity = "when there's an issue that needs discussion";
 }
+```
+
+Output
+
+```js
+// out.js
+```
