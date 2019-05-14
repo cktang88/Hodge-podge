@@ -1,6 +1,13 @@
 ## if-else-convert
 
 Refactors long if/else chains.
+
+Conditions:
+1. must be an if/else chain
+2. Each if body statement must be an assignment
+3. Each comparison must be a `>` comparison except the last statement, which can be an `else` statement or a `>` statement.
+
+
 Usage:
 
 1. Paste original if/else chain into `in.js`
