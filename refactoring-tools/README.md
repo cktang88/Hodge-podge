@@ -19,36 +19,35 @@ Example:
 
 ```js
 // in.js
-if (meetingRegularityRoll > 95) {
-  faction.meetingRegularity = "every day, at 5pm sharp";
-} else if (meetingRegularityRoll > 90) {
-  faction.meetingRegularity = "every other day";
-} else if (meetingRegularityRoll > 80) {
-  faction.meetingRegularity = "every third day";
-} else if (meetingRegularityRoll > 70) {
-  faction.meetingRegularity = "every week";
-} else if (meetingRegularityRoll > 60) {
-  faction.meetingRegularity = "every ten days";
-} else if (meetingRegularityRoll > 55) {
-  faction.meetingRegularity = "whenever a meeting is called";
-} else if (meetingRegularityRoll > 50) {
-  faction.meetingRegularity = "once a fortnight";
-} else if (meetingRegularityRoll > 45) {
-  faction.meetingRegularity = "once every three weeks";
-} else if (meetingRegularityRoll > 40) {
-  faction.meetingRegularity = "once a month";
-} else if (meetingRegularityRoll > 30) {
-  faction.meetingRegularity = "whenever a leader calls them";
-} else if (meetingRegularityRoll > 20) {
-  faction.meetingRegularity =
-    "whenever three of the leaders happen to be together";
-} else if (meetingRegularityRoll > 10) {
-  faction.meetingRegularity = "once in a blue moon";
-} else if (meetingRegularityRoll <= 5) {
-  faction.meetingRegularity = "at literally any time";
-} else {
-  faction.meetingRegularity = "when there's an issue that needs discussion";
-}
+  if (meetingAccessibilityRoll > 95) {
+      faction.meetingAccessibility = 'announced well ahead of time and are open to anyone'
+  } else if (meetingAccessibilityRoll > 90) {
+      faction.meetingAccessibility = 'announced ahead of time and are open to anyone'
+  } else if (meetingAccessibilityRoll > 80) {
+      faction.meetingAccessibility = 'are open to anyone'
+  } else if (meetingAccessibilityRoll > 70) {
+      faction.meetingAccessibility = 'are open to senior members'
+  } else if (meetingAccessibilityRoll > 60) {
+      faction.meetingAccessibility = 'are open to members'
+  } else if (meetingAccessibilityRoll > 55) {
+      faction.meetingAccessibility = 'are open to people accompanied by a member'
+  } else if (meetingAccessibilityRoll > 50) {
+      faction.meetingAccessibility = 'are not usually open to non-members'
+  } else if (meetingAccessibilityRoll > 45) {
+      faction.meetingAccessibility = 'are not open to non-members'
+  } else if (meetingAccessibilityRoll > 40) {
+      faction.meetingAccessibility = 'are held behind closed doors'
+  } else if (meetingAccessibilityRoll > 30) {
+      faction.meetingAccessibility = 'are open to those that can find them'
+  } else if (meetingAccessibilityRoll > 20) {
+      faction.meetingAccessibility = 'are invite-only'
+  } else if (meetingAccessibilityRoll > 10) {
+      faction.meetingAccessibility = 'closed to all'
+  } else if (meetingAccessibilityRoll <= 5) {
+      faction.meetingAccessibility = 'closed and held in secret'
+  } else {
+      faction.meetingAccessibility = 'are open to members';
+  }
 ```
 
 Output
@@ -56,23 +55,23 @@ Output
 ```js
 // out.js
 const arr = [
-[ 0, 'when there's an issue that needs discussion';],
-[ 5, 'at literally any time';],
-[ 10, 'once in a blue moon';],
-[ 20, 'whenever three of the leaders happen to be together';],
-[ 30, 'whenever a leader calls them';],
-[ 40, 'once a month';],
-[ 45, 'once every three weeks';],
-[ 50, 'once a fortnight';],
-[ 55, 'whenever a meeting is called';],
-[ 60, 'every ten days';],
-[ 70, 'every week';],
-[ 80, 'every third day';],
-[ 90, 'every other day';],
-[ 95, 'every day, at 5pm sharp';],
+[ 0, "are open to members"],
+[ 5, "closed and held in secret"],
+[ 10, "closed to all"],
+[ 20, "are invite-only"],
+[ 30, "are open to those that can find them"],
+[ 40, "are held behind closed doors"],
+[ 45, "are not open to non-members"],
+[ 50, "are not usually open to non-members"],
+[ 55, "are open to people accompanied by a member"],
+[ 60, "are open to members"],
+[ 70, "are open to senior members"],
+[ 80, "are open to anyone"],
+[ 90, "announced ahead of time and are open to anyone"],
+[ 95, "announced well ahead of time and are open to anyone"],
 ];
-faction.meetingRegularity= arr[0];
+faction.meetingAccessibility= arr[0];
 for (let [num, descript] in arr)
-if( meetingRegularityRoll > num)
-faction.meetingRegularity= descript;
+if( meetingAccessibilityRoll > num)
+faction.meetingAccessibility= descript;
 ```
