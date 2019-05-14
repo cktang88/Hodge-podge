@@ -22,7 +22,7 @@ func main() {
 
 	str := string(b) // convert content to a 'string'
 	trimWhitespace := func(s string) string {
-		return strings.Trim(s, " \n")
+		return strings.TrimSpace(s)
 	}
 
 	str = trimWhitespace(str)
@@ -72,14 +72,14 @@ func main() {
 	output := "const arr = [\n"
 	for i := len(messages) - 1; i > -1; i-- {
 		if len(values) > 0 && len(messages[i]) > 0 {
-			output += "[" + values[i] + ", " + messages[i] + "],\n"
+			output += "\t[" + values[i] + ", " + messages[i] + "],\n"
 		}
 	}
 	output += "];\n"
 	output += assignmentVar + "= arr[0];\n"
 	output += "for (let [num, descript] in arr)\n"
-	output += "if(" + conditionVar + "> num)\n"
-	output += assignmentVar + "= descript;"
+	output += "\t" + "if(" + conditionVar + "> num)\n"
+	output += "\t\t" + assignmentVar + "= descript;"
 
 	// write to file, created if doesn't exist
 	err = ioutil.WriteFile(outFile, []byte(output), 0644)
