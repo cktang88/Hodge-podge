@@ -1,4 +1,6 @@
-  if (meetingAccessibilityRoll > 95) {
+// example  
+
+if (meetingAccessibilityRoll > 95) {
       faction.meetingAccessibility = 'announced well ahead of time and are open to anyone'
   } else if (meetingAccessibilityRoll > 90) {
       faction.meetingAccessibility = 'announced ahead of time and are open to anyone'
