@@ -33,6 +33,11 @@ func main() {
 	str = strings.Replace(str, "if (", " ", 1) // replace start
 	str = strings.TrimSuffix(str, "}")         // remove end
 
+	str = strings.Replace(str, " '", ` "`, -1) // replace single with double quotes
+	str = strings.Replace(str, "'\n", "\"\n", -1)
+	str = strings.Replace(str, "';", `";`, -1)
+	str = strings.Replace(str, ";", "", -1) // remove semicolons
+
 	conditionVar := strings.Split(str, ">")[0]
 	if strings.Contains(str, "} else {") {
 		plug := "} else if (" + conditionVar + "> 0) {"
