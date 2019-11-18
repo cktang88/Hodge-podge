@@ -37,5 +37,5 @@ const fetch = (hostname, path) => new Promise((resolve, reject) => {
         const data = await fetch(gh, `/repos/${username}/${name}/commits`)
         data.forEach(({ commit }) => commit && extract(commit))
     }))
-    log(Object.keys(emailCnts).sort(e => emailCnts[e]))
+    log(Object.keys(emailCnts).sort((a,b) => emailCnts[b] - emailCnts[a]).map(k => k + ": " + emailCnts[k]))
 })();
